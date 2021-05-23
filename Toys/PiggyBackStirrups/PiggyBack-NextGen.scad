@@ -81,4 +81,4 @@ module stirrup(shoe_width, body_width, length, height)
 
     Length (of shoe platform and surround body) 120mm
  */
-stirrup(shoe_width=40, body_width=30, length=120, height=80);
+stirrup(shoe_width=60, body_width=30, length=120, height=80);
