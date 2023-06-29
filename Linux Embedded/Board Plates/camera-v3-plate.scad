@@ -3,6 +3,17 @@ $fn= $preview ? 32 : 64;
 
 // See https://datasheets.raspberrypi.com/camera/camera-module-3-standard-mechanical-drawing.pdf
 
+module t(t, s = 18, style = "", h) {
+   linear_extrude(height = h)
+      text(t, size = s, font = str("monospace", style), $fn = 16);
+}
+
+module libcamera(ls=20, h=6) {
+    translate([0, 2*ls, 0]) t("+-/ \\-+", 15, ":style=Bold", h);
+    translate([0, 1*ls, 0]) t("| (o) |", 15, ":style=Bold", h);
+    translate([0, 0*ls, 0]) t("+-----+", 15, ":style=Bold", h);
+}
+
 module plate(length, width, height) {
     radius = 2.0;
     length = length - (radius*2);
@@ -35,7 +46,15 @@ module mounts(length, width, height) {
     };
 };
 
+
+
 union() {
-    plate(25, 23.862, 2);
+    s=0.25;
+    difference() {
+        plate(25, 23.862, 2);
+        #translate([1.75, 4, -0.7])
+           scale([s, s, s])
+             libcamera();
+    }
     mounts(21, 12.5, 5);
 };
