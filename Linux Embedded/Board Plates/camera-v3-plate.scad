@@ -47,14 +47,21 @@ module mounts(length, width, height) {
 };
 
 
-
-union() {
-    s=0.25;
-    difference() {
+difference() {
+    union() {
         plate(25, 23.862, 2);
-        #translate([1.75, 4, -0.7])
-           scale([s, s, s])
+        mounts(21, 12.5, 5);
+    };
+
+    s=0.25;
+    #translate([1.75, 4, -0.7])
+        scale([s, s, s])
              libcamera();
-    }
-    mounts(21, 12.5, 5);
+
+    // Cut outs to support stacking of the through holes
+    // Note the hole is (0.1/2) larger than the fit through pillar.
+    offset=2;
+    translate([offset, 23.862 - 12.5 - offset, 1])
+        pillars(21, 12.5, 1.5, (2.2/2)+0.05);
+    
 };
