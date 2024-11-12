@@ -47,6 +47,7 @@ module mounts(length, width, height) {
 };
 
 
+// Main Plate
 difference() {
     union() {
         plate(25, 23.862, 2);
@@ -58,10 +59,35 @@ difference() {
         scale([s, s, s])
              libcamera();
 
-    // Cut outs to support stacking of the through holes
+/*    // Cut outs to support stacking of the through holes
     // Note the hole is (0.1/2) larger than the fit through pillar.
     offset=2;
     translate([offset, 23.862 - 12.5 - offset, 1])
-        pillars(21, 12.5, 1.5, (2.2/2)+0.05);
-    
+      %  pillars(21, 12.5, 1.5, (2.2/2)+0.05);
+*/
+};
+
+
+//https://www.dkprojects.net/openscad-threads/
+include <english-threads/threads.scad>;
+
+base_depth=5;
+
+/*
+https://www.printables.com/model/489142-camera-tripod-bolt-collection-unc-14-20
+
+Cameras are attached to tripods and such using bolts in the American Unified Thread Standard, specifically UNC 1/4-20. Historically, the more colourfully named British Standard Whitworth thread was used, but market forces in my grandparents time decided that particular standards battle fought over the Atlantic. 
+*/
+
+
+/* Blend the two parts together */
+translate([0, -base_depth, 0]) plate(25, 10, 2);
+
+rotate([90, 0, 0])
+difference() {
+    h=12;
+    plate(25, h, base_depth);
+
+    translate([25/2, (h+2)/2, -2])
+    english_thread (diameter=1/4, threads_per_inch=20, length=.3);
 };
